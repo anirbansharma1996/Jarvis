@@ -11,7 +11,6 @@ const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
 
   const handleLoginSuccess = async (res) => {
-
     try {
       const decodedData = jwtDecode(res.credential);
       setLoading(true)
@@ -45,6 +44,16 @@ const AuthContextProvider = ({ children }) => {
     }, 500);
   };
 
+  const checkTokenExpiry = () => {
+    const currTime = Date.now() / 1000;
+    if (user?.exp < currTime) {
+      handleLogOut();
+    } else {
+      const expin = user?.exp - currTime;
+      setTimeout(handleLogOut, expin * 1000);
+    }
+  };
+
   useEffect(() => {
     const user = localStorage.getItem("jarvis-gemini-auth-token");
     user ? setUser(jwtDecode(user)) : "";
@@ -52,7 +61,7 @@ const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ loading , handleLoginSuccess,message, handleLoginError, user,handleLogOut }}
+      value={{ loading ,checkTokenExpiry, handleLoginSuccess,message, handleLoginError, user,handleLogOut }}
     >
       {children}
     </AuthContext.Provider>
