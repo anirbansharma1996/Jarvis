@@ -1,1 +1,1 @@
-export const GOOGLE_API_CLIENT_ID = "598500433116-k0sbgj4gb643mmbhqbo94m6lorafap9i.apps.googleusercontent.com"
+export const GOOGLE_API_CLIENT_ID = "598500433116-eqksjjsff9595hoj702rvuv4uls36j3h.apps.googleusercontent.com"
