@@ -20,6 +20,7 @@ import {
   useColorMode,
   Button,
   Image,
+  Link,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -47,6 +48,7 @@ const LinkItems = [
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
+      position={"relative"}
       transition="3s ease"
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
@@ -59,11 +61,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Box display="flex" gap={2}>
           <Image borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
-          <Text
-            fontSize="2xl"
-            fontFamily="monospace"
-            fontWeight="bold"
-          >
+          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
             Jarvis
           </Text>
         </Box>
@@ -74,6 +72,18 @@ const SidebarContent = ({ onClose, ...rest }) => {
           {link.name}
         </NavItem>
       ))} */}
+      <Box position={"absolute"} bottom={0} left={[150,30]} >
+        <Text fontSize="sm" p={2} textAlign={"center"}>
+          Designed & Developed by
+          <br />
+          <Link
+            isExternal
+            href="https://www.linkedin.com/in/anirban-sharma1996/"
+          >
+            Anirban Sharma &copy; 2024
+          </Link>
+        </Text>
+      </Box>
     </Box>
   );
 };

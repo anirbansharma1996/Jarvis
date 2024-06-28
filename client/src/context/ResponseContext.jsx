@@ -21,12 +21,13 @@ const GeminiContextProvider = ({ children }) => {
       setOutput("");
       setError("");
       const res = await axios.post(`${BASE_URL}/prompt`, { prompt });
-      if (res.statusText == "OK") {
+      if (res.status ==  200) {
         setIsloaading(false);
         setQuery("");
         setError("");
         setOutput((prev) => res.data);
       } else {
+        setIsloaading(false);
         setError("Something went wrong...");
       }
     } catch (error) {
