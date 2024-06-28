@@ -1,11 +1,3 @@
-/*
- * Install the Generative AI SDK
- *
- * $ npm install @google/generative-ai
- *
- * See the getting started guide for more information
- * https://ai.google.dev/gemini-api/docs/get-started/node
- */
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -27,19 +19,16 @@ const generationConfig = {
   topP: 0.95,
   topK: 64,
   maxOutputTokens: 8192,
-  responseMimeType: "text/plain", // This ensures plain text output
+  responseMimeType: "text/plain", 
 };
 
 async function run(query) {
   const chatSession = model.startChat({
     generationConfig,
-    // safetySettings: Adjust safety settings
-    // See https://ai.google.dev/gemini-api/docs/safety-settings
     history: [],
   });
 
   const result = await chatSession.sendMessage(query);
-  // This line returns the plain text response
   return result.response.text();
 }
 
