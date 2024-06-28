@@ -31,11 +31,10 @@ export default function Auth() {
             m={"auto"}
           />
           <Text
-            display={["none", "block", "block"]}
             position={"absolute"}
-            left={["40%", "43%", "46%"]}
+            left={["44%", "43%", "43%"]}
             top={["60%"]}
-            fontSize="xl"
+            fontSize={["xs","xl"]}
           >
             Loading...
           </Text>
