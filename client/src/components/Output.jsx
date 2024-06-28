@@ -56,7 +56,16 @@ const Output = () => {
           )}
           <Stack direction="row" mt="1rem" spacing={4}>
             <Image borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
-            <Box h="62vh" overflow="auto">
+            <Box
+              h="62vh"
+              overflow="auto"
+              w={"full"}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "12px",
+                },
+              }}
+            >
               <ReactMarkdown>{plainText}</ReactMarkdown>
             </Box>
           </Stack>

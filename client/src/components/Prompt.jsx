@@ -23,7 +23,7 @@ const Prompt = () => {
         bottom="2"
         bg="gray.50"
         zIndex={999}
-        w={["90%", "94%", "80%"]}
+        w={["90%", "94%", "79%"]}
       >
         <InputGroup size="lg" bg={useColorModeValue("white", "gray.700")}>
           <Input
