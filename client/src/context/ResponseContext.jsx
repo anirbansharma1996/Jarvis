@@ -6,6 +6,7 @@ import { BASE_URL } from "../utils/base.url.js";
 export const GeminiContext = createContext();
 
 const GeminiContextProvider = ({ children }) => {
+  const [token ,setToken] = useState(localStorage.getItem("jarvis-gemini-auth-token"))
   const [query, setQuery] = useState("");
   const [output, setOutput] = useState(null);
   const [isLoading, setIsloaading] = useState(false);
@@ -20,7 +21,10 @@ const GeminiContextProvider = ({ children }) => {
       setIsloaading(true);
       setOutput("");
       setError("");
-      const res = await axios.post(`${BASE_URL}/prompt`, { prompt });
+      const res = await axios.post(`${BASE_URL}/prompt`, { prompt },{
+        headers :{Authorization : token}
+      });
+      
       if (res.status ==  200) {
         setIsloaading(false);
         setQuery("");

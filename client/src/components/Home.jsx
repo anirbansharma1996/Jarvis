@@ -14,38 +14,61 @@ import {
   useDisclosure,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   useColorMode,
   Button,
   Image,
   Link,
+  useToast,
+  ModalCloseButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiChevronDown,
-} from "react-icons/fi";
+import { FiMenu, FiChevronDown } from "react-icons/fi";
+import { FaQuestionCircle } from "react-icons/fa";
 import Prompt from "./Prompt";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import logo from "../assets/jarvis-gemini.jpg";
-
-const LinkItems = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
-];
+import axios from "axios";
+import { BASE_URL } from "../utils/base.url";
+import { GeminiContext } from "../context/ResponseContext";
+import ReactMarkdown from "react-markdown";
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const toast = useToast();
+  const { user, token } = useContext(AuthContext);
+  const { output } = useContext(GeminiContext);
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/prompt/${user.id}`, {
+          headers: { Authorization: token },
+        });
+        if (res.status == 200) {
+          setQuestions((prev) => res.data);
+        }
+      } catch (error) {
+        toast({
+          title: error.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    };
+    fetchdata();
+  }, [output]);
+
   return (
     <Box
       position={"relative"}
@@ -67,12 +90,24 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Box>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {/* {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))} */}
-      <Box position={"absolute"} bottom={0} left={[150,30]} >
+      <Box
+        height={["100vh", "75vh", "74vh"]}
+        overflow={"auto"}
+        sx={{
+          "&::-webkit-scrollbar": {
+            width: "1px",
+          },
+        }}
+      >
+        {questions?.reverse().map((el) => (
+          <NavItem key={el._id} m="1" border="1px solid">
+            <FaQuestionCircle />
+            &nbsp;
+            <BasicUsage props={el} />
+          </NavItem>
+        ))}
+      </Box>
+      <Box position={"absolute"} bottom={0} left={[150, 30]}>
         <Text fontSize="sm" p={2} textAlign={"center"}>
           Designed & Developed by
           <br />
@@ -232,3 +267,25 @@ const Home = () => {
 };
 
 export default Home;
+
+export function BasicUsage({ props }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Text fontSize={["xl", "lg", "sm"]} onClick={onOpen}>
+        {props.question}
+      </Text>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay  />
+        <ModalContent >
+          <ModalHeader>{props.question}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody fontSize="xs">
+            <ReactMarkdown >{props.answer}</ReactMarkdown>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}

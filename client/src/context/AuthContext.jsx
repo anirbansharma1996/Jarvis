@@ -6,20 +6,21 @@ import { BASE_URL } from "../utils/base.url.js";
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleLoginSuccess = async (res) => {
     try {
       const decodedData = jwtDecode(res.credential);
-      setLoading(true)
+      setLoading(true);
       const restoken = await axios.post(
         `${BASE_URL}/google-login`,
         decodedData
       );
       if (restoken.status === 200) {
-        setLoading(false)
+        setLoading(false);
         setMessage(restoken.data.message);
         localStorage.setItem("jarvis-gemini-auth-token", restoken.data.token);
         setTimeout(() => {
@@ -27,7 +28,7 @@ const AuthContextProvider = ({ children }) => {
         }, 500);
       }
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       setMessage("Error saving user data to server");
       console.error("Error saving user data to server:", error.response.data);
     }
@@ -56,12 +57,22 @@ const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = localStorage.getItem("jarvis-gemini-auth-token");
+    setToken(user);
     user ? setUser(jwtDecode(user)) : "";
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ loading ,checkTokenExpiry, handleLoginSuccess,message, handleLoginError, user,handleLogOut }}
+      value={{
+        loading,
+        checkTokenExpiry,
+        handleLoginSuccess,
+        message,
+        handleLoginError,
+        user,
+        handleLogOut,
+        token,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -17,6 +17,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={user ? <Home /> : <Auth />} />
+        {/* <Route path="/" element={<Home />} /> */}
       </Routes>
     </Router>
   );
