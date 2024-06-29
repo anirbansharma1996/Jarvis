@@ -24,7 +24,7 @@ const Prompt = () => {
         bottom="2"
         bg="gray.50"
         zIndex={999}
-        w={["92%", "94%", "79%"]}
+        w={["93%", "94%", "79%"]}
       >
         <InputGroup size={"md"} bg={useColorModeValue("white", "gray.700")}>
           <Textarea
@@ -35,7 +35,7 @@ const Prompt = () => {
             onChange={(e) => handleQuery(e.target.value)}
             readOnly={isLoading}
             size='sm'
-            maxW={["87%",'90%','95%']}
+            w={["87%",'90%','95%']}
             rows={{md:4 ,lg:4 }}
           />
           <InputRightElement width="3rem" >

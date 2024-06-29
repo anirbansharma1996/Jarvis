@@ -330,8 +330,8 @@ export function BasicUsage({ props, fetchdata }) {
   return (
     <>
       <Flex alignItems="center" justifyContent="space-between" w={"full"}>
-        <Text fontSize={["xs",'sm','xs']} onClick={onOpen}>
-          {props.question}
+        <Text  fontSize={["xs",'sm','xs']} onClick={onOpen}>
+          {props.question.slice(0,25)+"..."}
         </Text>
         <Button fontSize={['','','10px']} onClick={() => handleDelete(props._id)} isDisabled={isLoading}>
           <GoTrash  />
@@ -341,10 +341,11 @@ export function BasicUsage({ props, fetchdata }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{props.question}</ModalHeader>
+          <ModalHeader fontSize="xs" fontWeight={700}>Q :&nbsp;{props.question}</ModalHeader>
           <ModalCloseButton />
+          <hr />
           <ModalBody fontSize="xs">
-            <ReactMarkdown>{props.answer}</ReactMarkdown>
+            <ReactMarkdown>{`ANS : ${props.answer}`}</ReactMarkdown>
           </ModalBody>
         </ModalContent>
       </Modal>
