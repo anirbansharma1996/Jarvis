@@ -39,15 +39,15 @@ const Output = () => {
                 src={user?.picture}
                 alt={user?.name}
               />
-              <Text fontSize="lg" as="b"  >
+              <Text fontSize={["sm",'md','lg']} as="b"  >
                 {output?.question}
               </Text>
             </Stack>
           )}
           <Stack direction="row" mt="1rem" spacing={4}>
-            <Image borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
+            <Image display={['none','block','block']} borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
             <Box
-              h="61vh"
+              h={["72vh",'58vh','59vh']}
               overflow="auto"
               w={"full"}
               sx={{
@@ -56,7 +56,10 @@ const Output = () => {
                 },
               }}
               bg={useColorModeValue("white", "gray.800")}
-              p={3}
+              px={6}
+              py={3}
+              fontSize={["xs",'md','md']}
+              ml={[0,-3,-3]}
             >
               <ReactMarkdown>{plainText}</ReactMarkdown>
             </Box>

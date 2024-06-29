@@ -118,7 +118,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         )}
         {!qloading &&
           questions?.reverse().map((el) => (
-            <NavItem key={el._id} m="1" border="1px solid">
+            <NavItem key={el._id} m="1" border="1px solid" >
               <FaQuestionCircle />
               &nbsp;
               <BasicUsage props={el} fetchdata={fetchdata} />
@@ -330,11 +330,11 @@ export function BasicUsage({ props, fetchdata }) {
   return (
     <>
       <Flex alignItems="center" justifyContent="space-between" w={"full"}>
-        <Text fontSize={["xl", "lg", "sm"]} onClick={onOpen}>
+        <Text fontSize={["xs",'sm','xs']} onClick={onOpen}>
           {props.question}
         </Text>
-        <Button onClick={() => handleDelete(props._id)} isDisabled={isLoading}>
-          <GoTrash />
+        <Button fontSize={['','','10px']} onClick={() => handleDelete(props._id)} isDisabled={isLoading}>
+          <GoTrash  />
         </Button>
       </Flex>
 
