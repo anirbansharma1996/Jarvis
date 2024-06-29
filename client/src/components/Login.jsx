@@ -6,6 +6,7 @@ import {
   Text,
   Button,
   Icon,
+  Spinner,
 } from "@chakra-ui/react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_API_CLIENT_ID } from "../utils/google.auth";
@@ -841,20 +842,11 @@ export default function Login() {
     <Container maxW={"5xl"}>
       {loading && (
         <Stack position={"relative"}>
-          <Image
-            src="https://i.pinimg.com/originals/65/ba/48/65ba488626025cff82f091336fbf94bb.gif"
-            alt="loading"
-            w={500}
-            m={"auto"}
-          />
-          <Text
-            position={"absolute"}
-            left={["44%", "43%", "43%"]}
-            top={["60%"]}
-            fontSize={["xs", "xl"]}
-          >
-            Loading...
-          </Text>
+          <Flex justifyContent={"center"} mt={150}>
+            <Spinner />
+            &nbsp; &nbsp;
+            <Text>checking...</Text>
+          </Flex>
         </Stack>
       )}
       {!loading && (

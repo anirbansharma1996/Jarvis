@@ -14,6 +14,7 @@ import {
   useDisclosure,
   Menu,
   MenuButton,
+  Spinner,
   MenuItem,
   MenuList,
   useColorMode,
@@ -47,15 +48,20 @@ const SidebarContent = ({ onClose, ...rest }) => {
   const { user, token } = useContext(AuthContext);
   const { output } = useContext(GeminiContext);
   const [questions, setQuestions] = useState([]);
+  const [qloading, setQloading] = useState(false);
+
   const fetchdata = async () => {
     try {
+      setQloading(true);
       const res = await axios.get(`${BASE_URL}/prompt/${user.id}`, {
         headers: { Authorization: token },
       });
       if (res.status == 200) {
+        setQloading(false);
         setQuestions((prev) => res.data);
       }
     } catch (error) {
+      setQloading(false);
       toast({
         title: error.message,
         status: "error",
@@ -105,15 +111,28 @@ const SidebarContent = ({ onClose, ...rest }) => {
           },
         }}
       >
-        {questions?.reverse().map((el) => (
-          <NavItem key={el._id} m="1" border="1px solid">
-            <FaQuestionCircle />
-            &nbsp;
-            <BasicUsage props={el} fetchdata={fetchdata} />
-          </NavItem>
-        ))}
+        {qloading && (
+          <Flex justifyContent={"center"} mt={100}>
+            <Spinner />
+          </Flex>
+        )}
+        {!qloading &&
+          questions?.reverse().map((el) => (
+            <NavItem key={el._id} m="1" border="1px solid">
+              <FaQuestionCircle />
+              &nbsp;
+              <BasicUsage props={el} fetchdata={fetchdata} />
+            </NavItem>
+          ))}
       </Box>
-      <Box position={"absolute"} bottom={0} left={[150, 30]}>
+      <Box
+        position={"absolute"}
+        bottom={0}
+        left={[140, 170,30]}
+        bg={useColorModeValue("white", "gray.900")}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
+        zIndex={999}
+      >
         <Text fontSize="sm" p={2} textAlign={"center"}>
           Designed & Developed by
           <br />
@@ -314,7 +333,7 @@ export function BasicUsage({ props, fetchdata }) {
         <Text fontSize={["xl", "lg", "sm"]} onClick={onOpen}>
           {props.question}
         </Text>
-        <Button onClick={() => handleDelete(props._id)} isLoading={isLoading}>
+        <Button onClick={() => handleDelete(props._id)} isDisabled={isLoading}>
           <GoTrash />
         </Button>
       </Flex>

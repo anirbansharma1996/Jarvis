@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Stack, useColorModeValue } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { GeminiContext } from "../context/ResponseContext";
 import { AuthContext } from "../context/AuthContext";
@@ -14,7 +14,7 @@ const Output = () => {
   const plainText = removeMarkdown(output?.answer);
 
   return (
-    <Box m="auto" mt="1rem" w="90%">
+    <Box m="auto" mt="1rem" w={["99%","97%","95%"]}>
       {error && (
         <Text color="red" fontSize="md">
           {error}
@@ -22,21 +22,11 @@ const Output = () => {
       )}
       {isLoading && (
         <Stack position={"relative"}>
-          <Image
-            src="https://i.pinimg.com/originals/65/ba/48/65ba488626025cff82f091336fbf94bb.gif"
-            alt="loading"
-            w={500}
-            m={"auto"}
-          />
-          <Text
-            display={["none", "block", "block"]}
-            position={"absolute"}
-            left={["40%", "43%", "46%"]}
-            top={["60%"]}
-            fontSize="xl"
-          >
-            Loading...
-          </Text>
+           <Flex justifyContent={"center"} mt={150}>
+            <Spinner />
+            &nbsp;
+            <Text>Thinking...</Text>
+          </Flex>
         </Stack>
       )}
       {output && (
@@ -57,7 +47,7 @@ const Output = () => {
           <Stack direction="row" mt="1rem" spacing={4}>
             <Image borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
             <Box
-              h="62vh"
+              h="61vh"
               overflow="auto"
               w={"full"}
               sx={{
@@ -65,6 +55,8 @@ const Output = () => {
                   width: "1px",
                 },
               }}
+              bg={useColorModeValue("white", "gray.800")}
+              p={3}
             >
               <ReactMarkdown>{plainText}</ReactMarkdown>
             </Box>
