@@ -835,14 +835,15 @@ const Illustration = (props) => {
 };
 
 export default function Login() {
-  const { loading, handleLoginSuccess, handleLoginError } =
+  const { loading, handleLoginSuccess,handleLoginError } =
     useContext(AuthContext);
+
 
   return (
     <Container maxW={"5xl"}>
       {loading && (
         <Stack position={"relative"}>
-          <Flex justifyContent={"center"} mt={150}>
+          <Flex justifyContent={"center"} mt={["110%","50%","28%"]}>
             <Spinner />
             &nbsp; &nbsp;
             <Text>checking...</Text>
