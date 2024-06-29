@@ -84,7 +84,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Box display="flex" gap={2}>
           <Image borderRadius="full" boxSize="40px" src={logo} alt="jarvis" />
-          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+          <Text
+            fontSize="2xl"
+            fontFamily="monospace"
+            fontWeight="bold"
+            color={"orange.400"}
+          >
             Jarvis
           </Text>
         </Box>
@@ -100,7 +105,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         }}
       >
         {questions?.reverse().map((el) => (
-          <NavItem key={el._id} m="1" border="1px solid">
+          <NavItem key={el._id} m="1" border="1px solid orange.400">
             <FaQuestionCircle />
             &nbsp;
             <BasicUsage props={el} />
@@ -112,6 +117,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           Designed & Developed by
           <br />
           <Link
+            color={"orange.400"}
             isExternal
             href="https://www.linkedin.com/in/anirban-sharma1996/"
           >
@@ -190,6 +196,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
           fontSize="2xl"
           fontFamily="monospace"
           fontWeight="bold"
+          color={"orange.400"}
         >
           Jarvis
         </Text>
@@ -277,12 +284,12 @@ export function BasicUsage({ props }) {
       </Text>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay  />
-        <ModalContent >
+        <ModalOverlay />
+        <ModalContent>
           <ModalHeader>{props.question}</ModalHeader>
           <ModalCloseButton />
           <ModalBody fontSize="xs">
-            <ReactMarkdown >{props.answer}</ReactMarkdown>
+            <ReactMarkdown>{props.answer}</ReactMarkdown>
           </ModalBody>
         </ModalContent>
       </Modal>
