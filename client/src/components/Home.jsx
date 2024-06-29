@@ -27,8 +27,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  Spacer,
 } from "@chakra-ui/react";
+import { GoTrash } from "react-icons/go";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 import { FaQuestionCircle } from "react-icons/fa";
 import Prompt from "./Prompt";
@@ -46,26 +47,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
   const { user, token } = useContext(AuthContext);
   const { output } = useContext(GeminiContext);
   const [questions, setQuestions] = useState([]);
+  const fetchdata = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/prompt/${user.id}`, {
+        headers: { Authorization: token },
+      });
+      if (res.status == 200) {
+        setQuestions((prev) => res.data);
+      }
+    } catch (error) {
+      toast({
+        title: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
 
   useEffect(() => {
-    const fetchdata = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/prompt/${user.id}`, {
-          headers: { Authorization: token },
-        });
-        if (res.status == 200) {
-          setQuestions((prev) => res.data);
-        }
-      } catch (error) {
-        toast({
-          title: error.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
-      }
-    };
     fetchdata();
   }, [output]);
 
@@ -88,7 +89,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             fontSize="2xl"
             fontFamily="monospace"
             fontWeight="bold"
-            color={"orange.400"}
+            color={"blue.400"}
           >
             Jarvis
           </Text>
@@ -105,10 +106,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
         }}
       >
         {questions?.reverse().map((el) => (
-          <NavItem key={el._id} m="1" border="1px solid orange.400">
+          <NavItem key={el._id} m="1" border="1px solid">
             <FaQuestionCircle />
             &nbsp;
-            <BasicUsage props={el} />
+            <BasicUsage props={el} fetchdata={fetchdata} />
           </NavItem>
         ))}
       </Box>
@@ -117,7 +118,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           Designed & Developed by
           <br />
           <Link
-            color={"orange.400"}
+            color={"blue.400"}
             isExternal
             href="https://www.linkedin.com/in/anirban-sharma1996/"
           >
@@ -139,14 +140,13 @@ const NavItem = ({ icon, children, ...rest }) => {
     >
       <Flex
         align="center"
-        p="4"
+        p="3"
         mx="4"
         borderRadius="lg"
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
-          color: "white",
+          color: "blue.400",
         }}
         {...rest}
       >
@@ -196,7 +196,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
           fontSize="2xl"
           fontFamily="monospace"
           fontWeight="bold"
-          color={"orange.400"}
+          color={"blue.400"}
         >
           Jarvis
         </Text>
@@ -275,13 +275,49 @@ const Home = () => {
 
 export default Home;
 
-export function BasicUsage({ props }) {
+export function BasicUsage({ props, fetchdata }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+  const { token } = useContext(AuthContext);
+  const { isLoading } = useContext(GeminiContext);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`${BASE_URL}/prompt/${id}`, {
+        headers: { Authorization: token },
+      });
+
+      if (res.status == 200) {
+        toast({
+          title: res.data.message,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        fetchdata();
+      }
+    } catch (error) {
+      toast({
+        title: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+
   return (
     <>
-      <Text fontSize={["xl", "lg", "sm"]} onClick={onOpen}>
-        {props.question}
-      </Text>
+      <Flex alignItems="center" justifyContent="space-between" w={"full"}>
+        <Text fontSize={["xl", "lg", "sm"]} onClick={onOpen}>
+          {props.question}
+        </Text>
+        <Button onClick={() => handleDelete(props._id)} isLoading={isLoading}>
+          <GoTrash />
+        </Button>
+      </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

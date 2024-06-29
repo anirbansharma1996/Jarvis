@@ -42,14 +42,14 @@ const Output = () => {
       {output && (
         <Box>
           {output?.question && (
-            <Stack py={2} borderRadius={10} direction="row" spacing={4}>
+            <Stack py={1} borderRadius={10} direction="row" spacing={4}>
               <Image
                 borderRadius="full"
                 boxSize="30px"
                 src={user?.picture}
                 alt={user?.name}
               />
-              <Text fontSize="lg" as="b">
+              <Text fontSize="lg" as="b"  >
                 {output?.question}
               </Text>
             </Stack>
@@ -62,7 +62,7 @@ const Output = () => {
               w={"full"}
               sx={{
                 "&::-webkit-scrollbar": {
-                  width: "12px",
+                  width: "1px",
                 },
               }}
             >

@@ -870,13 +870,13 @@ export default function Login() {
             lineHeight={"110%"}
           >
             Welcome to{" "}
-            <Text as={"span"} color={"orange.400"}>
+            <Text as={"span"} color={"blue.400"}>
               Jarvis
             </Text>
           </Heading>
           <Text color={"gray.500"} maxW={"3xl"}>
-            Jarvis is an AI-driven application designed to provide a
-            seamless and efficient user experience for various tasks. Utilizing
+            Jarvis is an AI-driven application designed to provide a seamless
+            and efficient user experience for various tasks. Utilizing
             state-of-the-art technologies and frameworks, Jarvis ensures optimal
             performance and scalability.
           </Text>

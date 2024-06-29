@@ -41,7 +41,7 @@ const Prompt = () => {
               color='white'
               size="md"
               _hover={{
-                bg: "gray.900",
+                bg: "blue.400",
                 color: "white",
               }}
               isLoading={isLoading}

@@ -31,4 +31,25 @@ const GetUserOutPut = async (req, res) => {
   }
 };
 
-module.exports = { GetOutPut, GetUserOutPut };
+const DeleteQuery = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+
+    const prompt = await Gemini.findById(id);
+    if (!prompt) {
+      return res.status(404).send({ message: "prompt not found" });
+    }
+    if (prompt.user.toString() !== userId) {
+      return res
+        .status(403)
+        .send({ error: "Unauthorized , You can only delete your own prompts" });
+    }
+    await Gemini.findByIdAndDelete(id);
+    res.status(200).send({ message: "prompt deleted successfully" });
+  } catch (error) {
+    res.status(503).send(error.message);
+  }
+};
+
+module.exports = { GetOutPut, GetUserOutPut, DeleteQuery };
