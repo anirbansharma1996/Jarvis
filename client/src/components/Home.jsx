@@ -118,7 +118,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         )}
         {!qloading &&
           questions?.reverse().map((el) => (
-            <NavItem key={el._id} m="1" border="1px solid" >
+            <NavItem key={el._id} m="1" border="1px solid">
               <FaQuestionCircle />
               &nbsp;
               <BasicUsage props={el} fetchdata={fetchdata} />
@@ -128,7 +128,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <Box
         position={"absolute"}
         bottom={0}
-        left={[140, 170,30]}
+        left={[140, 170, 30]}
         bg={useColorModeValue("white", "gray.900")}
         borderColor={useColorModeValue("gray.200", "gray.700")}
         zIndex={999}
@@ -330,21 +330,44 @@ export function BasicUsage({ props, fetchdata }) {
   return (
     <>
       <Flex alignItems="center" justifyContent="space-between" w={"full"}>
-        <Text  fontSize={["xs",'sm','xs']} onClick={onOpen}>
-          {props.question.slice(0,25)+"..."}
+        <Text fontSize={["xs", "sm", "xs"]} onClick={onOpen}>
+          {props.question.slice(0, 25) + "..."}
         </Text>
-        <Button fontSize={['','','10px']} onClick={() => handleDelete(props._id)} isDisabled={isLoading}>
-          <GoTrash  />
+        <Button
+          fontSize={["", "", "10px"]}
+          onClick={() => handleDelete(props._id)}
+          isDisabled={isLoading}
+        >
+          <GoTrash />
         </Button>
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize="xs" fontWeight={700}>Q :&nbsp;{props.question}</ModalHeader>
+          <ModalHeader fontSize="xs" fontWeight={700}>
+            Q :&nbsp;{props.question}
+          </ModalHeader>
           <ModalCloseButton />
           <hr />
-          <ModalBody fontSize="xs">
+          <ModalBody
+            fontSize="xs"
+            overflow={"auto"}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "2px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "#f1f1f1" 
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#888"
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: "#555" 
+              },
+            }}
+          >
             <ReactMarkdown>{`ANS : ${props.answer}`}</ReactMarkdown>
           </ModalBody>
         </ModalContent>
