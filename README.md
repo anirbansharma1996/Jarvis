@@ -1,6 +1,6 @@
 # Jarvis 
 
-![main](jarvis-github.png)
+![main](jarvis-github1.png)
 
 ## Introduction
 
