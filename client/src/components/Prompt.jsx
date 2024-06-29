@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputRightElement,
   useColorModeValue,
+  Textarea,
 } from "@chakra-ui/react";
 import { VscRunAbove } from "react-icons/vsc";
 import Output from "./Output";
@@ -23,22 +24,24 @@ const Prompt = () => {
         bottom="2"
         bg="gray.50"
         zIndex={999}
-        w={["90%", "94%", "79%"]}
+        w={["92%", "94%", "79%"]}
       >
-        <InputGroup size="lg" bg={useColorModeValue("white", "gray.700")}>
-          <Input
+        <InputGroup size={"md"} bg={useColorModeValue("white", "gray.700")}>
+          <Textarea
             required
             placeholder="enter your question"
-            size="lg"
             name="query"
             value={query}
             onChange={(e) => handleQuery(e.target.value)}
             readOnly={isLoading}
+            size='sm'
+            maxW={["87%",'90%','95%']}
+            rows={{md:4 ,lg:4 }}
           />
-          <InputRightElement width="4.5rem">
+          <InputRightElement width="3rem" >
             <Button
               bg="gray.500"
-              color='white'
+              color="white"
               size="md"
               _hover={{
                 bg: "blue.400",
@@ -46,6 +49,8 @@ const Prompt = () => {
               }}
               isLoading={isLoading}
               onClick={() => handleOutput(query)}
+               mt={4}
+               h={'55px'}
             >
               <VscRunAbove />
             </Button>
